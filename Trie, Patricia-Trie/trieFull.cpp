@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <cctype> // for islower
 
 using namespace std;
 
@@ -20,7 +21,7 @@ struct TrieNode {
 void insert(TrieNode* root, string word) {
     TrieNode* curr = root;
     for (char c : word) {
-        int index = c - 'a'; 
+        int index = tolower(c) - 'a'; 
         
         if (index >= 0 && index < 26) {
             if (curr->children[index] == nullptr) {
@@ -111,4 +112,24 @@ void insertMacedonian(MkTrieNode* root, string word) {
         curr = curr->children[letter];
     }
     curr->isEndOfWord = true;
+}
+
+
+int main() {
+    int n;
+    cin >> n;
+    string temp;
+
+    TrieNode* trieRoot = new TrieNode();
+
+    for(int i = 0; i < n; i++) {
+        cin >> temp;
+        insert(trieRoot, temp);
+    }
+    
+    PatriciaNode* patriciaRoot = new PatriciaNode("", false);
+    convertToPatricia(trieRoot, patriciaRoot);
+    
+    
+    return 0;
 }
